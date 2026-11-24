@@ -54,7 +54,7 @@ class _BookingScreenState extends State<BookingScreen> {
         Text('${months[month.month-1]} ${month.year}',style:const TextStyle(fontSize:17,fontWeight:FontWeight.bold,color:forest)),
         IconButton(onPressed:month.isBefore(DateTime(today.year,today.month+12))?()=>moveMonth(1):null,icon:const Icon(Icons.chevron_right)),
       ]),
-      const Row(children:[
+      Row(children:[
         for(final day in ['M','T','W','T','F','S','S']) Expanded(child:Center(child:Text(day,style:TextStyle(color:Colors.black54,fontWeight:FontWeight.w600))))
       ]),
       const SizedBox(height:8),
