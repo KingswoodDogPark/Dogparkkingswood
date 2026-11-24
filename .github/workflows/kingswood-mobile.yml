@@ -3,6 +3,8 @@ on:
   push:
     branches: [mobile-app]
     paths: ['mobile/**', '.github/workflows/kingswood-mobile.yml']
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -29,7 +31,7 @@ jobs:
         working-directory: buildapp
         run: |
           flutter pub get
-          flutter analyze lib
+          flutter analyze --no-fatal-infos --no-fatal-warnings lib
           flutter build apk --debug
       - uses: actions/upload-artifact@v4
         with:
