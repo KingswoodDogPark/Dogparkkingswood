@@ -18,7 +18,7 @@ class Home extends StatelessWidget {
  const Padding(padding:EdgeInsets.all(20),child:Text('Choose your paddock',style:TextStyle(fontSize:26,fontFamily:'serif',fontWeight:FontWeight.bold,color:forest))),
  for(int i=0;i<4;i++) Padding(padding:const EdgeInsets.fromLTRB(16,0,16,10),child:Card(color:const Color(0xfffaf7ef),child:ListTile(contentPadding:const EdgeInsets.all(12),leading:const CircleAvatar(backgroundColor:sage,child:Icon(Icons.pets,color:forest)),title:Text('${i<2?'Small':'Large'} Paddock ${i%2+1}',style:const TextStyle(fontWeight:FontWeight.bold,color:forest)),subtitle:Text('£${i<2?8:10} • Up to 3 dogs included'),trailing:const Icon(Icons.chevron_right,color:forest),onTap:()=>book(context,i)))),
  const Padding(padding:EdgeInsets.all(24),child:Text('Private hire • Enclosed paddocks • Parking\nBooking demonstration only. No payment or reservation is made.',textAlign:TextAlign.center,style:TextStyle(color:forest))),
- ])),bottomNavigationBar:SafeArea(child:Padding(padding:const EdgeInsets.all(12),child:FilledButton.icon(style:FilledButton.styleFrom(backgroundColor:forest,foregroundColor:cream,padding:const EdgeInsets.all(16)),onPressed:()=>book(context),icon:const Icon(Icons.calendar_month),label:const Text('Book your adventure'))))));
+ ])),bottomNavigationBar:SafeArea(child:Padding(padding:const EdgeInsets.all(12),child:FilledButton.icon(style:FilledButton.styleFrom(backgroundColor:forest,foregroundColor:cream,padding:const EdgeInsets.all(16)),onPressed:()=>book(context),icon:const Icon(Icons.calendar_month),label:const Text('Book your adventure'))));
 }
 class Portal extends StatefulWidget{
  final String url;const Portal({super.key,required this.url});
