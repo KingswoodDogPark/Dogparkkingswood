@@ -1,0 +1,57 @@
+name: Build Kingswood mobile demo
+on:
+  push:
+    branches: [mobile-app]
+    paths: ['mobile/**', '.github/workflows/kingswood-mobile.yml']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Generate native project
+        run: |
+          flutter create --platforms=android --org uk.co.kingswooddogpark --project-name kingswood_mobile buildapp
+          cp mobile/pubspec.yaml buildapp/pubspec.yaml
+          cp mobile/main.dart buildapp/lib/main.dart
+          sed -i 's/<application/<uses-permission android:name="android.permission.INTERNET"\/><application/' buildapp/android/app/src/main/AndroidManifest.xml
+          sed -i 's/android:label="kingswood_mobile"/android:label="Kingswood Dog Park"/' buildapp/android/app/src/main/AndroidManifest.xml
+      - name: Compile Android APK
+        working-directory: buildapp
+        run: |
+          flutter pub get
+          flutter analyze --no-fatal-infos --no-fatal-warnings lib
+          flutter build apk --debug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Kingswood-Android-demo
+          path: buildapp/build/app/outputs/flutter-apk/app-debug.apk
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: |
+          flutter create --platforms=ios --org uk.co.kingswooddogpark --project-name kingswood_mobile buildapp
+          cp mobile/pubspec.yaml buildapp/pubspec.yaml
+          cp mobile/main.dart buildapp/lib/main.dart
+          cd buildapp
+          flutter pub get
+          flutter build ios --release --no-codesign
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Kingswood-iOS-unsigned
+          path: buildapp/build/ios/iphoneos/Runner.app
